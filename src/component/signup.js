@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import EmployerSignUp from "./employeLogin/signup";
 import CandidateSignUp from "./candidate/signup";
-import { Link } from "react-router-dom";
 
 function Home() {
   const [isEmployer, setIsEmployer] = useState(false);
