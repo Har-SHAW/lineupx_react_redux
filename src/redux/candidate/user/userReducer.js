@@ -3,14 +3,13 @@ const initState = {
         id: 0,
         username: "shaw",
         token: "some token",
-        name: "Harsha vardhan",
-        organization: "LineupX"
+        name: "Harsha vardhan"
     }
 }
 
 const userReducer = (state = initState, action) => {
     switch(action.type) {
-        case "SET_EMPLOYER_USER": return {
+        case "SET_CANDIDATE_USER": return {
             ...state,
             usr: action.payload
         }
