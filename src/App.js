@@ -1,15 +1,21 @@
 import React from "react";
+import { Provider } from "react-redux";
 import HomeLogin from "./component/login";
-import HomeSignUp from "./component/signup"
+import HomeSignUp from "./component/signup";
+import HomeEmployer from "./component/employeLogin/home";
 import { BrowserRouter as Router, Route } from "react-router-dom";
+import store from "./redux/store";
 import "./App.css";
 
 function App() {
   return (
-    <Router>
-      <Route path="/signin" component={HomeLogin} />
-      <Route path="/signup" component={HomeSignUp} />
-    </Router>
+    <Provider store={store}>
+      <Router>
+        <Route path="/signin" component={HomeLogin} />
+        <Route path="/signup" component={HomeSignUp} />
+        <Route path="/employer/home" component={HomeEmployer} />
+      </Router>
+    </Provider>
   );
 }
 
