@@ -3,8 +3,8 @@ const initState = {
         id: 0,
         username: "shaw",
         token: "some token",
-        name: "harsha vardhan",
-        organization: "my organization"
+        name: "Harsha vardhan",
+        organization: "LineupX"
     }
 }
 

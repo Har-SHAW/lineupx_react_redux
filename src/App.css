@@ -1,26 +1,59 @@
-.TabOn{
+.TabOn {
   width: 50%;
   border: 1px solid dodgerblue;
   text-align: center;
-  padding:5px;
+  padding: 5px;
   background-color: dodgerblue;
   cursor: pointer;
   color: white;
 }
 
-.TabOff{
+.TabOff {
   width: 50%;
   border: 1px solid grey;
   text-align: center;
-  padding:5px;
+  padding: 5px;
   cursor: pointer;
   transition-duration: 300ms;
   color: black;
 }
 
-.TabOff:hover{
+.TabOff:hover {
   background-color: dodgerblue;
   border: 1px solid dodgerblue;
   color: white;
   transition-duration: 300ms;
+}
+
+.employerHomeSingle {
+  margin: 10px;
+  height: auto;
+  width: 75%;
+  padding: 30px;
+  background-color: #b1ede8;
+  border-radius: 10px;
+}
+
+.employerDescription {
+  font: poppins;
+  max-height: 100px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.employerDescriptionExpanded {
+  white-space: pre-line;
+  font: poppins;
+  overflow: hidden;
+  animation: anilen;
+  animation-duration: 250ms;
+}
+
+@keyframes anilen {
+  0% {
+    transform: scaleX(1) scaleY(0);
+  }
+  100% {
+    transform: scaleX(1) scaleY(1);
+  }
 }
