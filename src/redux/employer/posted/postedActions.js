@@ -23,12 +23,13 @@ export const fetchEmployerPosts = (token) => {
     return (dispatch) => {
       dispatch(fetchEmployerPostsRequest());
       axios
-        .get("http://localhost:5000/users/employer/login", {
+        .get("http://localhost:5000/posts", {
           headers: headers,
         })
         .then((response) => {
           // response.data is the users
           const users = response.data;
+          console.log(users);
           dispatch(fetchEmployerPostsSuccess(users));
         })
         .catch((error) => {
@@ -46,7 +47,7 @@ export const fetchEmployerPosts = (token) => {
   
   export const fetchEmployerPostsSuccess = (users) => {
     return {
-      type: "FETCH_EMPLOYER_POSTS_SUCCESS",
+      type: "SET_POST",
       payload: users,
     };
   };

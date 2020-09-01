@@ -1,4 +1,5 @@
 import axios from "axios";
+import { fetchEmployerPosts } from "../posted/postedActions";
 
 export const fetchEmployerUsers = (e_username, e_password) => {
   const headers = {
@@ -19,6 +20,7 @@ export const fetchEmployerUsers = (e_username, e_password) => {
         // response.data is the users
         const users = response.data;
         dispatch(fetchEmployerUsersSuccess(users));
+        dispatch(fetchEmployerPosts(response.data.token));
       })
       .catch((error) => {
         // error.message is the error message

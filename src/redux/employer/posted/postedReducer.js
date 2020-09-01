@@ -33,8 +33,20 @@ const postedReducer = (state = initState, action) => {
       };
     case "ADD_POST":
       return {
-        ...state,
+        loading: false,
         post: { posts: [...state.post.posts, action.payload] },
+        error: ""
+      };
+      case 'FETCH_EMPLOYER_POSTS_REQUEST':
+      return {
+        ...state,
+        loading: true,
+      };
+    case 'FETCH_EMPLOYER_POSTS_FAILURE':
+      return {
+        loading: false,
+        user: {},
+        error: action.payload,
       };
     default:
       return state;
