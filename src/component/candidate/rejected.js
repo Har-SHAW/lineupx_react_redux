@@ -17,7 +17,7 @@ class Rejected extends React.Component{
                 {this.props.posts.map((post, i) => {
                   if (
                     this.props.userData.rejected.find(
-                      (ele) => ele === post.id
+                      (ele) => ele === post._id
                     ) !== undefined
                   ) {
                     return (

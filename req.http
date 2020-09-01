@@ -1,10 +1,17 @@
-POST http://localhost:5000/users/employer/login
+POST http://localhost:5000/users/candidate/login
 Content-Type: application/json
 
 {
-    "username":"shawEmp",
-    "password":"shawEmp"
+    "username":"shaw",
+    "password":"shaw"
 }
 
 ###
 DELETE http://localhost:5000/posts
+
+###
+PUT http://localhost:5000/users/accept/5f4d3adfc6a9d3efca23a7c0
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZjRkMTg3ZTE1MjQwYmRmMWFmMGVjNmEiLCJpYXQiOjE1OTg5ODAyMjMsImV4cCI6MTU5ODk4MzgyM30.i5tIfo4-FE2y5pBagoQ87_w3IbXyVTLKe90JLWI-VnU
+
+###
+GET http://localhost:5000/users/

@@ -4,11 +4,13 @@ import { connect } from "react-redux";
 import Accepted from "./accepted";
 import Rejected from "./rejected";
 import Loading from "../loading";
+import axios from "axios";
 
 class Home extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      isLoading: false,
       showHome: true,
       showAccepted: false,
       shawRejected: false,
@@ -52,6 +54,7 @@ class Home extends React.Component {
           flexDirection: "column",
         }}
       >
+        {this.state.isLoading ? <Loading /> : null}
         <div
           style={{
             height: "15%",
@@ -188,7 +191,29 @@ class Home extends React.Component {
                       <div style={{ display: "flex", flexDirection: "row" }}>
                         <div
                           onClick={() => {
-                            this.props.setAccepted(post.id);
+                            console.log(`bearer ${this.props.userData.token}`,`http://localhost:5000/users/accept/${post._id}`)
+                            this.setState({
+                              isLoading: true,
+                            });
+                            const headers = {
+                              "Content-Type": "application/json",
+                              "Access-Control-Allow-Origin": "*",
+                              Authorization: `bearer ${this.props.userData.token}`,
+                            };
+                            axios
+                              .put(
+                                `http://localhost:5000/users/accept/${post._id}`,
+                                {},
+                                { headers: headers }
+                              )
+                              .then((res) => {
+                                this.setState({
+                                  isLoading: false,
+                                });
+                                console.log(res.data);
+                                this.props.setAccepted(post._id);
+                              })
+                              .catch((err) => console.log(err));
                           }}
                           className="acceptedBut"
                         >
@@ -196,7 +221,29 @@ class Home extends React.Component {
                         </div>
                         <div
                           onClick={() => {
-                            this.props.setRejected(post.id);
+                            this.setState({
+                              isLoading: true,
+                            });
+                            const headers = {
+                              "Content-Type": "application/json",
+                              "Access-Control-Allow-Origin": "*",
+                              Authorization: `bearer ${this.props.userData.token}`,
+                            };
+                            axios
+                              .put(
+                                `http://localhost:5000/users/reject/${post._id}`,
+                                {},
+                                { headers: headers }
+                              )
+                              .then((res) => {
+                                this.setState({
+                                  isLoading: false,
+                                });
+                                console.log(res.data);
+
+                                this.props.setRejected(post._id);
+                              })
+                              .catch((err) => console.log(err));
                           }}
                           className="rejectedBut"
                         >
