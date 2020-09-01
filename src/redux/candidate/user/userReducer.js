@@ -1,13 +1,15 @@
 const initialState = {
     loading: false,
     user: {
-      id: 0,
+      id: "0",
       token: "some token",
       name: "Harsha vardhan",
       organization: "LineupX",
       firstname: "",
       lastname: "",
       candidate: "",
+      accepted:["0"],
+      rejected:["0"]
     },
     error: "",
   };
