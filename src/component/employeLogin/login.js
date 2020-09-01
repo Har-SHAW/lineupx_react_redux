@@ -1,10 +1,14 @@
 import React from "react";
 import { connect } from "react-redux";
 import { fetchEmployerUsers } from "../../redux";
+import {useHistory} from 'react-router-dom';
+
+
 
 function Login(props) {
   var username = "";
   var password = "";
+  const history = useHistory();
   return (
     <div style={{ width: "100%", display: "flex", justifyContent: "center" }}>
       <div style={{ display: "flex", flexDirection: "column", width: "100%" }}>
@@ -24,12 +28,14 @@ function Login(props) {
           }}
         />
         <input
-          onClick={() => {
+          onClick={(e) => {
             props.login(username, password);
+            history.push("/employer/home")
           }}
           style={{ marginTop: "20px" }}
           type="submit"
           value="Login"
+          
         />
       </div>
     </div>

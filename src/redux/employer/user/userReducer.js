@@ -3,7 +3,6 @@ const initialState = {
   user: {
     id: 0,
     token: "some token",
-    name: "Harsha vardhan",
     organization: "LineupX",
     firstname: "",
     lastname: "",

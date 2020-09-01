@@ -24,7 +24,8 @@ function Login(props) {
           }}
         />
         <input
-          onClick={() => {
+          onClick={(e) => {
+            e.preventDefault();
             props.login(username, password);
           }}
           style={{ marginTop: "20px" }}
