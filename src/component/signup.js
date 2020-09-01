@@ -54,7 +54,7 @@ function Home() {
             justifyContent: "center",
           }}
         >
-          <a href="/signin" style={{ fontSize: "12px" }}>
+          <a href="/" style={{ fontSize: "12px" }}>
             Already have an account?
           </a>
         </div>

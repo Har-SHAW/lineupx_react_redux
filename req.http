@@ -10,8 +10,8 @@ Content-Type: application/json
 DELETE http://localhost:5000/posts
 
 ###
-PUT http://localhost:5000/users/accept/5f4d3adfc6a9d3efca23a7c0
-Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZjRkMTg3ZTE1MjQwYmRmMWFmMGVjNmEiLCJpYXQiOjE1OTg5ODAyMjMsImV4cCI6MTU5ODk4MzgyM30.i5tIfo4-FE2y5pBagoQ87_w3IbXyVTLKe90JLWI-VnU
+PUT http://localhost:5000/users/accept/5f4e4c370f0bcd45495227f5
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZjRlYTlhZDZhNGFlZjhjZDdkY2MzYjUiLCJpYXQiOjE1OTg5OTA5NzgsImV4cCI6MTU5ODk5NDU3OH0.h1xEGYz_vUyvzC6wrn6FUKOYjEwBlHlusvuw4wKfgYE
 
 ###
-GET http://localhost:5000/users/
+GET  http://localhost:5000/users/

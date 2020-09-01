@@ -1,5 +1,5 @@
 import React from "react";
-import { addPost } from "../../redux";
+import { addPost, fetchEmployerUsers } from "../../redux";
 import { connect } from "react-redux";
 import Model from "./model";
 
@@ -16,6 +16,11 @@ class Home extends React.Component {
       isOpen: bool,
     });
   };
+
+  componentDidMount(){
+    const token = localStorage.getItem("token");
+    this.props.fetch(token);
+  }
 
   render() {
     return this.props.loading === false ? (
@@ -167,6 +172,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     addPost: (post) => dispatch(addPost(post)),
+    fetch:(token) => dispatch(fetchEmployerUsers(token))
   };
 };
 

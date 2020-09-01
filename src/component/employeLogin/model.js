@@ -110,7 +110,7 @@ class Model extends React.Component {
                   const headers = {
                     "Content-Type": "application/json",
                     "Access-Control-Allow-Origin": "*",
-                    Authorization: `bearer ${this.props.userData.token}`,
+                    Authorization: `bearer ${localStorage.getItem("token")}`,
                   };
                   const data = {
                     title: this.state.title,

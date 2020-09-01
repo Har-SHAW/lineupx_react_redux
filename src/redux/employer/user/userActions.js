@@ -1,19 +1,17 @@
 import axios from "axios";
 import { fetchEmployerPosts } from "../posted/postedActions";
 
-export const fetchEmployerUsers = (e_username, e_password) => {
+export const fetchEmployerUsers = (token) => {
   const headers = {
     "Content-Type": "application/json",
     "Access-Control-Allow-Origin": "*",
+    "Authorization":`bearer ${token}`
   };
-  const data = {
-    username: e_username,
-    password: e_password,
-  }; 
+  const data = {}; 
   return (dispatch) => {
     dispatch(fetchEmployerUsersRequest());
     axios
-      .post("http://localhost:5000/users/employer/login", data, {
+      .post("http://localhost:5000/users/employer/fetch", data, {
         headers: headers,
       })
       .then((response) => {

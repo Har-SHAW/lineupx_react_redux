@@ -1,5 +1,10 @@
 import React from "react";
-import { addPost, setAccepted, setRejected } from "../../redux";
+import {
+  addPost,
+  setAccepted,
+  setRejected,
+  fetchCandidateUsers,
+} from "../../redux";
 import { connect } from "react-redux";
 import Accepted from "./accepted";
 import Rejected from "./rejected";
@@ -18,6 +23,13 @@ class Home extends React.Component {
     };
   }
 
+  componentDidMount() {
+    const token = localStorage.getItem("token");
+    if (token) {
+      this.props.fetch(token);
+    }
+  }
+
   handleClick = (bool) => {
     this.setState({
       isOpen: bool,
@@ -25,23 +37,7 @@ class Home extends React.Component {
   };
 
   componentDidUpdate() {
-    if (this.state.showHome === true) {
-      document.getElementById("homebut").className = "butOn";
-    } else {
-      document.getElementById("homebut").className = "butOff";
-    }
-
-    if (this.state.showAccepted === true) {
-      document.getElementById("acceptedbut").className = "butOn";
-    } else {
-      document.getElementById("acceptedbut").className = "butOff";
-    }
-
-    if (this.state.showRejected === true) {
-      document.getElementById("rejectedbut").className = "butOn";
-    } else {
-      document.getElementById("rejectedbut").className = "butOff";
-    }
+    
   }
 
   render() {
@@ -93,6 +89,10 @@ class Home extends React.Component {
                     showRejected: false,
                     showHome: true,
                   });
+                  
+                  document.getElementById("homebut").className = "butOn";
+                  document.getElementById("acceptedbut").className = "butOff";
+                  document.getElementById("rejectedbut").className = "butOff";
                 }}
                 className="butOn"
               >
@@ -106,6 +106,10 @@ class Home extends React.Component {
                     showRejected: false,
                     showHome: false,
                   });
+
+                  document.getElementById("homebut").className = "butOff";
+                  document.getElementById("acceptedbut").className = "butOn";
+                  document.getElementById("rejectedbut").className = "butOff";
                 }}
                 className="butOff"
               >
@@ -120,6 +124,9 @@ class Home extends React.Component {
                     showRejected: true,
                     showHome: false,
                   });
+                  document.getElementById("homebut").className = "butOff";
+                  document.getElementById("acceptedbut").className = "butOff";
+                  document.getElementById("rejectedbut").className = "butOn";
                 }}
                 className="butOff"
               >
@@ -146,113 +153,140 @@ class Home extends React.Component {
                   alignItems: "center",
                 }}
               >
-                {this.props.posts.map((post, i) => (
-                  <div id={`homesingle${i}`} className="employerHomeSingle">
-                    <div
-                      style={{
-                        display: "flex",
-                        flexDirection: "column",
-                        height: "100%",
-                        justifyContent: "center",
-                      }}
-                    >
-                      <div>
-                        <label style={{ fontSize: "20px", fontWeight: "bold" }}>
-                          {post.title}
-                        </label>
-                      </div>
-                      <div style={{ height: "20px" }} />
-                      <div
-                        onClick={() => {
-                          if (
-                            document.getElementById(`descriptionsingle${i}`)
-                              .className === "employerDescription"
-                          ) {
-                            document.getElementById(
-                              `descriptionsingle${i}`
-                            ).className = "employerDescriptionExpanded";
-                          } else {
-                            document.getElementById(
-                              `descriptionsingle${i}`
-                            ).className = "employerDescription";
-                          }
-                        }}
-                        id={`descriptionsingle${i}`}
-                        className="employerDescription"
-                      >
-                        <text>{post.description}</text>
-                      </div>
-                      <div style={{ height: "20px" }} />
-                      <div>
-                        <label style={{ fontSize: "18px", fontWeight: "bold" }}>
-                          Salary:{post.salary}
-                        </label>
-                      </div>
-                      <div style={{ display: "flex", flexDirection: "row" }}>
+                {this.props.posts.map((post, i) => {
+                  if (
+                    this.props.userData.accepted.find(
+                      (ele) => ele === post._id
+                    ) === undefined &&
+                    this.props.userData.rejected.find(
+                      (ele) => ele === post._id
+                    ) === undefined
+                  ) {
+                    return (
+                      <div id={`homesingle${i}`} className="employerHomeSingle">
                         <div
-                          onClick={() => {
-                            console.log(`bearer ${this.props.userData.token}`,`http://localhost:5000/users/accept/${post._id}`)
-                            this.setState({
-                              isLoading: true,
-                            });
-                            const headers = {
-                              "Content-Type": "application/json",
-                              "Access-Control-Allow-Origin": "*",
-                              Authorization: `bearer ${this.props.userData.token}`,
-                            };
-                            axios
-                              .put(
-                                `http://localhost:5000/users/accept/${post._id}`,
-                                {},
-                                { headers: headers }
-                              )
-                              .then((res) => {
-                                this.setState({
-                                  isLoading: false,
-                                });
-                                console.log(res.data);
-                                this.props.setAccepted(post._id);
-                              })
-                              .catch((err) => console.log(err));
+                          style={{
+                            display: "flex",
+                            flexDirection: "column",
+                            height: "100%",
+                            justifyContent: "center",
                           }}
-                          className="acceptedBut"
                         >
-                          Accept
-                        </div>
-                        <div
-                          onClick={() => {
-                            this.setState({
-                              isLoading: true,
-                            });
-                            const headers = {
-                              "Content-Type": "application/json",
-                              "Access-Control-Allow-Origin": "*",
-                              Authorization: `bearer ${this.props.userData.token}`,
-                            };
-                            axios
-                              .put(
-                                `http://localhost:5000/users/reject/${post._id}`,
-                                {},
-                                { headers: headers }
-                              )
-                              .then((res) => {
+                          <div>
+                            <label
+                              style={{ fontSize: "20px", fontWeight: "bold" }}
+                            >
+                              {post.title}
+                            </label>
+                          </div>
+                          <div style={{ height: "20px" }} />
+                          <div
+                            onClick={() => {
+                              if (
+                                document.getElementById(`descriptionsingle${i}`)
+                                  .className === "employerDescription"
+                              ) {
+                                document.getElementById(
+                                  `descriptionsingle${i}`
+                                ).className = "employerDescriptionExpanded";
+                              } else {
+                                document.getElementById(
+                                  `descriptionsingle${i}`
+                                ).className = "employerDescription";
+                              }
+                            }}
+                            id={`descriptionsingle${i}`}
+                            className="employerDescription"
+                          >
+                            <text>{post.description}</text>
+                          </div>
+                          <div style={{ height: "20px" }} />
+                          <div>
+                            <label
+                              style={{ fontSize: "18px", fontWeight: "bold" }}
+                            >
+                              Salary:{post.salary}
+                            </label>
+                          </div>
+                          <div
+                            style={{ display: "flex", flexDirection: "row" }}
+                          >
+                            <div
+                              onClick={() => {
+                                console.log(
+                                  `bearer ${localStorage.getItem("token")}`,
+                                  `http://localhost:5000/users/accept/${post._id}`
+                                );
                                 this.setState({
-                                  isLoading: false,
+                                  isLoading: true,
                                 });
-                                console.log(res.data);
+                                const headers = {
+                                  "Content-Type": "application/json",
+                                  "Access-Control-Allow-Origin": "*",
+                                  Authorization: `bearer ${localStorage.getItem(
+                                    "token"
+                                  )}`,
+                                };
+                                axios
+                                  .put(
+                                    `http://localhost:5000/users/accept/${post._id}`,
+                                    {},
+                                    { headers: headers }
+                                  )
+                                  .then((res) => {
+                                    this.setState({
+                                      isLoading: false,
+                                    });
+                                    console.log(res.data);
+                                    this.props.setAccepted(post._id);
+                                  })
+                                  .catch((err) => console.log(err));
+                              }}
+                              className="acceptedBut"
+                            >
+                              Accept
+                            </div>
+                            <div
+                              onClick={() => {
+                                this.setState({
+                                  isLoading: true,
+                                });
 
-                                this.props.setRejected(post._id);
-                              })
-                              .catch((err) => console.log(err));
-                          }}
-                          className="rejectedBut"
-                        >
-                          Reject
+                                const headers = {
+                                  "Content-Type": "application/json",
+                                  "Access-Control-Allow-Origin": "*",
+                                  Authorization: `bearer ${localStorage.getItem(
+                                    "token"
+                                  )}`,
+                                };
+                                axios
+                                  .put(
+                                    `http://localhost:5000/users/reject/${post._id}`,
+                                    {},
+                                    { headers: headers }
+                                  )
+                                  .then((res) => {
+                                    this.setState({
+                                      isLoading: false,
+                                    });
+                                    console.log(res.data);
+
+                                    this.props.setRejected(post._id);
+                                  })
+                                  .catch((err) => console.log(err));
+                              }}
+                              className="rejectedBut"
+                            >
+                              Reject
+                            </div>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  </div>
-                ))}
+                    );
+                  } else {
+                    return null;
+                  }
+                })}
               </div>
             ) : this.state.showAccepted === true ? (
               <Accepted />
@@ -284,6 +318,7 @@ const mapDispatchToProps = (dispatch) => {
     addPost: (post) => dispatch(addPost(post)),
     setAccepted: (id) => dispatch(setAccepted(id)),
     setRejected: (id) => dispatch(setRejected(id)),
+    fetch: (token) => dispatch(fetchCandidateUsers(token)),
   };
 };
 

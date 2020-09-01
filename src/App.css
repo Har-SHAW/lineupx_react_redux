@@ -128,3 +128,7 @@
   cursor: pointer;
   transition-duration: 200ms;
 }
+
+.error{
+  border-color: red;
+}

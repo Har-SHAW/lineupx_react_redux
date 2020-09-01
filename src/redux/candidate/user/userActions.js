@@ -1,19 +1,17 @@
 import axios from "axios";
 import { fetchCandidatePosts } from "../posts/postsActions";
 
-export const fetchCandidateUsers = (c_username, c_password) => {
+export const fetchCandidateUsers = (token) => {
   const headers = {
     "Content-Type": "application/json",
     "Access-Control-Allow-Origin": "*",
+    "Authorization":`bearer ${token}`
   };
-  const data = {
-    username: c_username,
-    password: c_password,
-  };
+  const data = {};
   return (dispatch) => {
     dispatch(fetchCandidateUsersRequest());
     axios
-      .post("http://localhost:5000/users/candidate/login", data, {
+      .post("http://localhost:5000/users/candidate/fetch", data, {
         headers: headers,
       })
       .then((response) => {
