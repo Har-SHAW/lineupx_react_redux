@@ -3,7 +3,7 @@ import EmployerLogin from "./employeLogin/login";
 import CandidateLogin from "./candidate/Login";
 
 function Home() {
-  const [isEmployer, setIsEmployer] = useState(false);
+  const [isEmployer, setIsEmployer] = useState(true);
   return (
     <div
       style={{
@@ -23,7 +23,7 @@ function Home() {
               document.getElementById("tabCandidate").className = "TabOff";
             }}
             id="tabEmployer"
-            className="TabOff"
+            className="TabOn"
             style={{
               borderTopLeftRadius: "10px",
             }}
@@ -37,7 +37,7 @@ function Home() {
               document.getElementById("tabCandidate").className = "TabOn";
             }}
             id="tabCandidate"
-            className="TabOn"
+            className="TabOff"
             style={{
               borderTopRightRadius: "10px",
             }}

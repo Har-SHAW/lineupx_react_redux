@@ -27,6 +27,7 @@ function Login() {
         <div>Password</div>
         <div style={{ height: "5px" }}></div>
         <input
+          type="password"
           onChange={(e) => {
             let val = e.target.value;
             setData((prev) => {
@@ -57,7 +58,8 @@ function Login() {
                 history.push("/employer/home");
               })
               .catch((err) => {
-                document.getElementById("status").innerHTML = "Incorrect Credentials";
+                document.getElementById("status").innerHTML =
+                  "Incorrect Credentials";
                 setLoading((prev) => false);
               });
           }}
@@ -65,7 +67,7 @@ function Login() {
           type="submit"
           value="Login"
         />
-        <span id="status" style={{ color: "red" }}></span>
+        <span id="status" style={{ color: "red" ,textAlign: "center"}}></span>
       </div>
     </div>
   );

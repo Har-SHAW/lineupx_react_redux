@@ -19,7 +19,7 @@ export const fetchCandidateUsers = (token) => {
         const users = response.data;
         console.log(response.data);
         dispatch(fetchCandidateUsersSuccess(users));
-        dispatch(fetchCandidatePosts(response.data.token));
+        dispatch(fetchCandidatePosts(token));
       })
       .catch((error) => {
         // error.message is the error message

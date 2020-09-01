@@ -48,6 +48,7 @@ class Home extends React.Component {
           flexDirection: "column",
         }}
       >
+        
         {this.state.isLoading ? <Loading /> : null}
         <div
           style={{
@@ -151,6 +152,7 @@ class Home extends React.Component {
                   alignItems: "center",
                 }}
               >
+                
                 {this.props.posts.map((post, i) => {
                   if (
                     this.props.userData.accepted.find(

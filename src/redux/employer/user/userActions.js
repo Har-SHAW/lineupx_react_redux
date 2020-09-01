@@ -18,7 +18,7 @@ export const fetchEmployerUsers = (token) => {
         // response.data is the users
         const users = response.data;
         dispatch(fetchEmployerUsersSuccess(users));
-        dispatch(fetchEmployerPosts(response.data.token));
+        dispatch(fetchEmployerPosts(token));
       })
       .catch((error) => {
         // error.message is the error message

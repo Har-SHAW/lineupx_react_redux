@@ -111,11 +111,13 @@ class Model extends React.Component {
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
+              overflow: "auto"
             }}
           >
             <div
               style={{
                 height: "100%",
+                width: "75%",
                 display: "flex",
                 flexDirection: "column",
                 justifyContent: "center",

@@ -110,6 +110,7 @@ function SignUp() {
         <div>Password</div>
         <div style={{ height: "5px" }}></div>
         <input
+          type="password"
           onChange={(e) => {
             let d = e.target.value;
             setData((prev) => {
@@ -125,6 +126,7 @@ function SignUp() {
         <div>Confirm Password</div>
         <div style={{ height: "5px" }}></div>
         <input
+          type="password"
           onChange={(e) => {
             let d = e.target.value;
             setData((prev) => {
