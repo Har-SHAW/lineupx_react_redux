@@ -1,20 +1,40 @@
-const initState = {
-    usr: {
-        id: 0,
-        username: "shaw",
-        token: "some token",
-        name: "Harsha vardhan"
+const initialState = {
+    loading: false,
+    user: {
+      id: 0,
+      token: "some token",
+      name: "Harsha vardhan",
+      organization: "LineupX",
+      firstname: "",
+      lastname: "",
+      candidate: "",
+    },
+    error: "",
+  };
+  
+  const reducer = (state = initialState, action) => {
+    switch (action.type) {
+      case 'FETCH_CANDIDATE_USERS_REQUEST':
+        return {
+          ...state,
+          loading: true,
+        };
+      case 'FETCH_CANDIDATE_USERS_SUCCESS':
+        return {
+          loading: false,
+          user: action.payload,
+          error: "",
+        };
+      case 'FETCH_CANDIDATE_USERS_FAILURE':
+        return {
+          loading: false,
+          user: {},
+          error: action.payload,
+        };
+      default:
+        return state;
     }
-}
-
-const userReducer = (state = initState, action) => {
-    switch(action.type) {
-        case "SET_CANDIDATE_USER": return {
-            ...state,
-            usr: action.payload
-        }
-        default: return state
-    }
-}
-
-export default userReducer;
+  };
+  
+  export default reducer;
+  

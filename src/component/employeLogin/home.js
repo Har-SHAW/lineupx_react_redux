@@ -1,5 +1,5 @@
 import React from "react";
-import { setUser, setPosts, addPost } from "../../redux";
+import { addPost } from "../../redux";
 import { connect } from "react-redux";
 import Model from "./model";
 
@@ -55,11 +55,11 @@ class Home extends React.Component {
             >
               Hai!{" "}
               <strong style={{ color: "dodgerBlue" }}>
-                {this.props.user.name}
+                {this.props.userData.name}
               </strong>{" "}
               From{" "}
               <strong style={{ color: "orange" }}>
-                {this.props.user.organization}
+                {this.props.userData.organization}
               </strong>
             </div>
             <div
@@ -109,7 +109,7 @@ class Home extends React.Component {
                   }}
                 >
                   <div>
-                    <a style={{fontSize: "20px", fontWeight: "bold"}}>{post.title}</a>
+                    <label style={{fontSize: "20px", fontWeight: "bold"}}>{post.title}</label>
                   </div>
                   <div style={{height:"20px"}}/>
                   <div id={`descriptionsingle${i}`} className="employerDescription">
@@ -131,15 +131,13 @@ class Home extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    user: state.userEmployer.usr,
+    userData: state.userEmployer.user,
     posts: state.postedEmployer.posts,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    setUser: () => dispatch(setUser()),
-    setPosts: () => dispatch(setPosts()),
     addPost: (post) => dispatch(addPost(post)),
   };
 };
