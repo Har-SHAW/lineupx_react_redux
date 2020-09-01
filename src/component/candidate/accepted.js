@@ -52,7 +52,7 @@ class Accepted extends React.Component {
                     id={`descriptionsingle${i}`}
                     className="employerDescription"
                   >
-                    <text>{post.description}</text>
+                    <label>{post.description}</label>
                   </div>
                   <div style={{ height: "20px" }} />
                   <div>
@@ -60,6 +60,18 @@ class Accepted extends React.Component {
                       Salary:{post.salary}
                     </label>
                   </div>
+                  <div style={{ height: "20px" }} />
+                    <div>
+                      <label style={{  fontWeight: "bold" }}>
+                        Requirements:  {post.requirements}
+                      </label>
+                    </div>
+                    <div style={{ height: "20px" }} />
+                    <div>
+                      <label style={{  fontWeight: "bold" }}>
+                        Organization:  {post.organization}
+                      </label>
+                    </div>
                 </div>
               </div>
             );

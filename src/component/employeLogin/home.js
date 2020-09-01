@@ -2,6 +2,7 @@ import React from "react";
 import { addPost, fetchEmployerUsers } from "../../redux";
 import { connect } from "react-redux";
 import Model from "./model";
+import Loading from "../loading";
 
 class Home extends React.Component {
   constructor(props) {
@@ -17,7 +18,7 @@ class Home extends React.Component {
     });
   };
 
-  componentDidMount(){
+  componentDidMount() {
     const token = localStorage.getItem("token");
     this.props.fetch(token);
   }
@@ -137,12 +138,24 @@ class Home extends React.Component {
                       id={`descriptionsingle${i}`}
                       className="employerDescription"
                     >
-                      <text>{post.description}</text>
+                      <label>{post.description}</label>
                     </div>
                     <div style={{ height: "20px" }} />
                     <div>
-                      <label style={{ fontSize: "18px", fontWeight: "bold" }}>
-                        Salary:{post.salary}
+                      <label style={{ fontWeight: "bold" }}>
+                        Salary: {post.salary}
+                      </label>
+                    </div>
+                    <div style={{ height: "20px" }} />
+                    <div>
+                      <label style={{ fontWeight: "bold" }}>
+                        Requirements: {post.requirements}
+                      </label>
+                    </div>
+                    <div style={{ height: "20px" }} />
+                    <div>
+                      <label style={{ fontWeight: "bold" }}>
+                        Organization: {post.organization}
                       </label>
                     </div>
                   </div>
@@ -150,12 +163,12 @@ class Home extends React.Component {
               ))}
             </div>
           ) : (
-            <div>loading</div>
+            <Loading />
           )}
         </div>
       </div>
     ) : (
-      <div>loading</div>
+      <Loading />
     );
   }
 }
@@ -172,7 +185,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     addPost: (post) => dispatch(addPost(post)),
-    fetch:(token) => dispatch(fetchEmployerUsers(token))
+    fetch: (token) => dispatch(fetchEmployerUsers(token)),
   };
 };
 

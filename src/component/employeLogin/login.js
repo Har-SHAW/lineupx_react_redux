@@ -54,7 +54,7 @@ function Login() {
               .then((res) => {
                 localStorage.setItem("token", res.data.token);
                 setLoading((prev) => false);
-                history.push("/candidate/home");
+                history.push("/employer/home");
               })
               .catch((err) => {
                 document.getElementById("status").innerHTML = "Incorrect Credentials";

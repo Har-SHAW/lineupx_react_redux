@@ -2,6 +2,7 @@ import React from "react";
 import { addPost } from "../../redux";
 import { connect } from "react-redux";
 import axios from "axios";
+import Loading from "../loading";
 
 class Model extends React.Component {
   constructor(props) {
@@ -11,11 +12,53 @@ class Model extends React.Component {
       title: "",
       description: "",
       salary: "",
+      requirements: "",
+      loading: false,
     };
   }
 
+  check() {
+    if (
+      (isNaN(this.state.salary.slice(1, this.state.salary.length)) &&
+        isNaN(this.state.salary.slice(0, this.state.salary.length - 1))) ||
+      this.state.salary.length === 0
+    ) {
+      document.getElementById("salary").innerHTML = "Should be a proper number";
+    } else {
+      document.getElementById("salary").innerHTML = "";
+    }
+    if (this.state.title.length < 5) {
+      document.getElementById("title").innerHTML = "Atleast 5 characters";
+    } else {
+      document.getElementById("title").innerHTML = "";
+    }
+    if (this.state.description.length < 50) {
+      document.getElementById("description").innerHTML =
+        "Atleast 50 characters";
+    } else {
+      document.getElementById("description").innerHTML = "";
+    }
+    if (this.state.requirements < 3) {
+      document.getElementById("requirements").innerHTML =
+        "Atleast 3 characters";
+    } else {
+      document.getElementById("requirements").innerHTML = "";
+    }
+
+    if (
+      document.getElementById("requirements").innerHTML === "" &&
+      document.getElementById("title").innerHTML === "" &&
+      document.getElementById("description").innerHTML === "" &&
+      document.getElementById("salary").innerHTML === ""
+    ) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   render() {
-    return (
+    return this.state.loading === false ? (
       <div
         style={{
           position: "absolute",
@@ -86,6 +129,10 @@ class Model extends React.Component {
                   });
                 }}
               />
+              <span
+                id="title"
+                style={{ color: "red", fontSize: "10px" }}
+              ></span>
               <div style={{ height: "20px" }} />
               <div>Job Description</div>
               <textarea
@@ -95,6 +142,10 @@ class Model extends React.Component {
                   });
                 }}
               />
+              <span
+                id="description"
+                style={{ color: "red", fontSize: "10px" }}
+              ></span>
               <div style={{ height: "20px" }} />
               <div>Job Salary</div>
               <input
@@ -104,37 +155,65 @@ class Model extends React.Component {
                   });
                 }}
               />
+              <span
+                id="salary"
+                style={{ color: "red", fontSize: "10px" }}
+              ></span>
+              <div style={{ height: "20px" }} />
+              <div>Job Requirements</div>
+              <input
+                onChange={(e) => {
+                  this.setState({
+                    requirements: e.target.value,
+                  });
+                }}
+              />
+              <span
+                id="requirements"
+                style={{ color: "red", fontSize: "10px" }}
+              ></span>
               <div style={{ height: "20px" }} />
               <input
                 onClick={() => {
-                  const headers = {
-                    "Content-Type": "application/json",
-                    "Access-Control-Allow-Origin": "*",
-                    Authorization: `bearer ${localStorage.getItem("token")}`,
-                  };
-                  const data = {
-                    title: this.state.title,
-                    description: this.state.description,
-                    salary: this.state.salary,
-                  };
-                  axios
-                    .post("http://localhost:5000/posts/", data, {
-                      headers: headers,
-                    })
-                    .then((response) => {
-                      if (response.status === 200) {
-                        console.log(response.body);
-                        this.props.addPost({
-                          title: this.state.title,
-                          description: this.state.description,
-                          salary: this.state.salary,
+                  if (this.check()) {
+                    this.setState({
+                      loading: true,
+                    });
+                    const headers = {
+                      "Content-Type": "application/json",
+                      "Access-Control-Allow-Origin": "*",
+                      Authorization: `bearer ${localStorage.getItem("token")}`,
+                    };
+                    const data = {
+                      title: this.state.title,
+                      description: this.state.description,
+                      salary: this.state.salary,
+                      requirements: this.state.requirements,
+                    };
+                    axios
+                      .post("http://localhost:5000/posts/", data, {
+                        headers: headers,
+                      })
+                      .then((response) => {
+                        if (response.status === 200) {
+                          console.log(response.body);
+                          this.props.addPost({
+                            title: this.state.title,
+                            description: this.state.description,
+                            salary: this.state.salary,
+                            requirements: this.state.requirements,
+                            organization: this.props.userData.organization,
+                          });
+                          this.props.whenClose(false);
+                        } else {
+                          console.log(response.body);
+                        }
+                        this.setState({
+                          loading: false,
                         });
-                        this.props.whenClose(false);
-                      } else {
-                        console.log(response.body);
-                      }
-                    })
-                    .catch((err) => console.log(err));
+                      })
+                      .catch((err) => console.log(err));
+                  }
                 }}
                 type="submit"
                 value="POST"
@@ -144,6 +223,8 @@ class Model extends React.Component {
           </div>
         </div>
       </div>
+    ) : (
+      <Loading />
     );
   }
 }

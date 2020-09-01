@@ -36,9 +36,7 @@ class Home extends React.Component {
     });
   };
 
-  componentDidUpdate() {
-    
-  }
+  componentDidUpdate() {}
 
   render() {
     return this.props.loading === false ? (
@@ -89,7 +87,7 @@ class Home extends React.Component {
                     showRejected: false,
                     showHome: true,
                   });
-                  
+
                   document.getElementById("homebut").className = "butOn";
                   document.getElementById("acceptedbut").className = "butOff";
                   document.getElementById("rejectedbut").className = "butOff";
@@ -163,7 +161,11 @@ class Home extends React.Component {
                     ) === undefined
                   ) {
                     return (
-                      <div id={`homesingle${i}`} className="employerHomeSingle">
+                      <div
+                        key={`homesingle${i}`}
+                        id={`homesingle${i}`}
+                        className="employerHomeSingle"
+                      >
                         <div
                           style={{
                             display: "flex",
@@ -198,7 +200,7 @@ class Home extends React.Component {
                             id={`descriptionsingle${i}`}
                             className="employerDescription"
                           >
-                            <text>{post.description}</text>
+                            <label>{post.description}</label>
                           </div>
                           <div style={{ height: "20px" }} />
                           <div>
@@ -206,6 +208,18 @@ class Home extends React.Component {
                               style={{ fontSize: "18px", fontWeight: "bold" }}
                             >
                               Salary:{post.salary}
+                            </label>
+                          </div>
+                          <div style={{ height: "20px" }} />
+                          <div>
+                            <label style={{ fontWeight: "bold" }}>
+                              Requirements: {post.requirements}
+                            </label>
+                          </div>
+                          <div style={{ height: "20px" }} />
+                          <div>
+                            <label style={{ fontWeight: "bold" }}>
+                              Organization: {post.organization}
                             </label>
                           </div>
                           <div
