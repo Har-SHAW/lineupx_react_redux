@@ -1,8 +1,9 @@
 import React from "react";
-import { addPost, setAccepted } from "../../redux";
+import { addPost, setAccepted, setRejected } from "../../redux";
 import { connect } from "react-redux";
 import Accepted from "./accepted";
 import Rejected from "./rejected";
+import Loading from "../loading";
 
 class Home extends React.Component {
   constructor(props) {
@@ -20,6 +21,26 @@ class Home extends React.Component {
       isOpen: bool,
     });
   };
+
+  componentDidUpdate() {
+    if (this.state.showHome === true) {
+      document.getElementById("homebut").className = "butOn";
+    } else {
+      document.getElementById("homebut").className = "butOff";
+    }
+
+    if (this.state.showAccepted === true) {
+      document.getElementById("acceptedbut").className = "butOn";
+    } else {
+      document.getElementById("acceptedbut").className = "butOff";
+    }
+
+    if (this.state.showRejected === true) {
+      document.getElementById("rejectedbut").className = "butOn";
+    } else {
+      document.getElementById("rejectedbut").className = "butOff";
+    }
+  }
 
   render() {
     return this.props.loading === false ? (
@@ -60,43 +81,47 @@ class Home extends React.Component {
                 {this.props.userData.firstname}
               </strong>
             </div>
-            <div
-              onClick={() => {
-                this.setState({
-                  showAccepted: true,
-                  shawRejected: false,
-                  showHome: false,
-                });
-              }}
-              style={{
-                color: "white",
-                alignSelf: "center",
-                cursor: "pointer",
-                fontWeight: "bold",
-                border: "1px solid white",
-                padding: "5px",
-              }}
-            >
-              ACCEPTED JOBS
-            </div>
-            <div
-              onClick={() => {
-                this.setState({
-                  showAccepted: false,
-                  shawRejected: true,
-                  showHome: false,
-                });
-              }}
-              style={{
-                color: "white",
-                alignSelf: "center",
-                cursor: "pointer",
-                fontWeight: "bold",
-                border: "1px solid white",
-                padding: "5px",
-              }}
-            >
-              REJECTED JOBS
+            <div style={{ display: "flex", flexDirection: "row" }}>
+              <div
+                id="homebut"
+                onClick={() => {
+                  this.setState({
+                    showAccepted: false,
+                    showRejected: false,
+                    showHome: true,
+                  });
+                }}
+                className="butOn"
+              >
+                HOME
+              </div>
+              <div
+                id="acceptedbut"
+                onClick={() => {
+                  this.setState({
+                    showAccepted: true,
+                    showRejected: false,
+                    showHome: false,
+                  });
+                }}
+                className="butOff"
+              >
+                ACCEPTED JOBS
+              </div>
+
+              <div
+                id="rejectedbut"
+                onClick={() => {
+                  this.setState({
+                    showAccepted: false,
+                    showRejected: true,
+                    showHome: false,
+                  });
+                }}
+                className="butOff"
+              >
+                REJECTED JOBS
+              </div>
             </div>
           </div>
         </div>
@@ -121,21 +146,6 @@ class Home extends React.Component {
                 {this.props.posts.map((post, i) => (
                   <div id={`homesingle${i}`} className="employerHomeSingle">
                     <div
-                      onClick={() => {
-                        if (
-                          document.getElementById(`descriptionsingle${i}`)
-                            .className === "employerDescription"
-                        ) {
-                          document.getElementById(
-                            `descriptionsingle${i}`
-                          ).className = "employerDescriptionExpanded";
-                        } else {
-                          document.getElementById(
-                            `descriptionsingle${i}`
-                          ).className = "employerDescription";
-                        }
-                        this.props.setAccepted(post.id);
-                      }}
                       style={{
                         display: "flex",
                         flexDirection: "column",
@@ -150,6 +160,20 @@ class Home extends React.Component {
                       </div>
                       <div style={{ height: "20px" }} />
                       <div
+                        onClick={() => {
+                          if (
+                            document.getElementById(`descriptionsingle${i}`)
+                              .className === "employerDescription"
+                          ) {
+                            document.getElementById(
+                              `descriptionsingle${i}`
+                            ).className = "employerDescriptionExpanded";
+                          } else {
+                            document.getElementById(
+                              `descriptionsingle${i}`
+                            ).className = "employerDescription";
+                          }
+                        }}
                         id={`descriptionsingle${i}`}
                         className="employerDescription"
                       >
@@ -161,6 +185,24 @@ class Home extends React.Component {
                           Salary:{post.salary}
                         </label>
                       </div>
+                      <div style={{ display: "flex", flexDirection: "row" }}>
+                        <div
+                          onClick={() => {
+                            this.props.setAccepted(post.id);
+                          }}
+                          className="acceptedBut"
+                        >
+                          Accept
+                        </div>
+                        <div
+                          onClick={() => {
+                            this.props.setRejected(post.id);
+                          }}
+                          className="rejectedBut"
+                        >
+                          Reject
+                        </div>
+                      </div>
                     </div>
                   </div>
                 ))}
@@ -171,12 +213,12 @@ class Home extends React.Component {
               <Rejected />
             )
           ) : (
-            <div>loading</div>
+            <Loading />
           )}
         </div>
       </div>
     ) : (
-      <div>loading</div>
+      <Loading />
     );
   }
 }
@@ -193,7 +235,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     addPost: (post) => dispatch(addPost(post)),
-    setAccepted: (id) => dispatch(setAccepted(id))
+    setAccepted: (id) => dispatch(setAccepted(id)),
+    setRejected: (id) => dispatch(setRejected(id)),
   };
 };
 

@@ -3,9 +3,7 @@ import { addPost } from "../../redux";
 import { connect } from "react-redux";
 
 class Rejected extends React.Component{
-    constructor(props){
-        super(props);
-    }
+    
     render(){
         return (
             <div
@@ -20,7 +18,7 @@ class Rejected extends React.Component{
                   if (
                     this.props.userData.rejected.find(
                       (ele) => ele === post.id
-                    ) != undefined
+                    ) !== undefined
                   ) {
                     return (
                       <div id={`homesingle${i}`} className="employerHomeSingle">
@@ -71,6 +69,8 @@ class Rejected extends React.Component{
                         </div>
                       </div>
                     );
+                  }else{
+                    return null;
                   }
                 })}
               </div>

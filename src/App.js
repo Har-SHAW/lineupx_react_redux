@@ -19,7 +19,7 @@ function App() {
     <Provider store={store}>
       <Router>
         <Switch>
-          <Route exact path="/signin" component={withRouter(HomeLogin)} />
+          <Route exact path="/" component={withRouter(HomeLogin)} />
           <Route exact path="/signup" component={withRouter(HomeSignUp)} />
           <Route
             exact

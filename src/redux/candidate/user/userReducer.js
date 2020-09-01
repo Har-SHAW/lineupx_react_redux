@@ -35,11 +35,35 @@ const reducer = (state = initialState, action) => {
       };
     case "SET_ACCEPTED": {
       let obj = state;
-      let lst = state.user.accepted;
-      if (!lst.includes(action.payload)) {
-        lst.push(action.payload);
+      let alst = state.user.accepted;
+      if (!alst.includes(action.payload)) {
+        alst.push(action.payload);
       }
-      obj.user.accepted = lst;
+      let rlst = state.user.rejected;
+      for(let i=0;i<rlst.length;i++){
+        if(rlst[i] === action.payload){
+          rlst.splice(i,1);
+        }
+      }
+      obj.user.accepted = alst;
+      obj.user.rejected = rlst
+      return obj;
+    };
+    case "SET_REJECTED": {
+      let obj = state;
+      let alst = state.user.accepted;
+      for(let i=0;i<alst.length;i++){
+        if(alst[i] === action.payload){
+          alst.splice(i,1);
+        }
+      }
+      let rlst = state.user.rejected;
+      
+      if (!rlst.includes(action.payload)) {
+        rlst.push(action.payload);
+      }
+      obj.user.accepted = alst;
+      obj.user.rejected = rlst
       return obj;
     }
     default:
