@@ -1,6 +1,7 @@
 import React from "react";
 import { addPost } from "../../redux";
 import { connect } from "react-redux";
+import axios from "axios";
 
 class Model extends React.Component {
   constructor(props) {
@@ -105,14 +106,36 @@ class Model extends React.Component {
               />
               <div style={{ height: "20px" }} />
               <input
-              onClick={()=>{
-                  this.props.addPost({
-                      title: this.state.title,
-                      description: this.state.description,
-                      salary: this.state.salary
-                  })
-                  this.props.whenClose(false);
-              }}
+                onClick={() => {
+                  const headers = {
+                    "Content-Type": "application/json",
+                    "Access-Control-Allow-Origin": "*",
+                    Authorization: `bearer ${this.props.userData.token}`,
+                  };
+                  const data = {
+                    title: this.state.title,
+                    description: this.state.description,
+                    salary: this.state.salary,
+                  };
+                  axios
+                    .post("http://localhost:5000/posts/", data, {
+                      headers: headers,
+                    })
+                    .then((response) => {
+                      if (response.status === 200) {
+                        console.log(response.body);
+                        this.props.addPost({
+                          title: this.state.title,
+                          description: this.state.description,
+                          salary: this.state.salary,
+                        });
+                        this.props.whenClose(false);
+                      } else {
+                        console.log(response.body);
+                      }
+                    })
+                    .catch((err) => console.log(err));
+                }}
                 type="submit"
                 value="POST"
                 style={{ width: "100px", alignSelf: "center" }}
@@ -124,6 +147,11 @@ class Model extends React.Component {
     );
   }
 }
+const mapStateToProps = (state) => {
+  return {
+    userData: state.userEmployer.user,
+  };
+};
 
 const mapDispatchToProps = (dispatch) => {
   return {
@@ -131,4 +159,4 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(null, mapDispatchToProps)(Model);
+export default connect(mapStateToProps, mapDispatchToProps)(Model);
