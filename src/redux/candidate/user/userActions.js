@@ -1,9 +1,10 @@
 import axios from "axios";
+import { fetchCandidatePosts } from "../posts/postsActions";
 
 export const fetchCandidateUsers = (c_username, c_password) => {
   const headers = {
     "Content-Type": "application/json",
-    "Access-Control-Allow-Origin": "*"
+    "Access-Control-Allow-Origin": "*",
   };
   const data = {
     username: c_username,
@@ -12,12 +13,15 @@ export const fetchCandidateUsers = (c_username, c_password) => {
   return (dispatch) => {
     dispatch(fetchCandidateUsersRequest());
     axios
-      .post("http://localhost:5000/users/candidate/login", data, { headers: headers })
+      .post("http://localhost:5000/users/candidate/login", data, {
+        headers: headers,
+      })
       .then((response) => {
         // response.data is the users
         const users = response.data;
         console.log(response.data);
         dispatch(fetchCandidateUsersSuccess(users));
+        dispatch(fetchCandidatePosts(response.data.token));
       })
       .catch((error) => {
         // error.message is the error message
@@ -45,3 +49,18 @@ export const fetchCandidateUsersFailure = (error) => {
     payload: error,
   };
 };
+
+
+export const setAccepted = id => {
+  return {
+    type: "SET_ACCEPTED",
+    payload: id
+  }
+}
+
+export const setRejected = id => {
+  return {
+    type: "SET_REJECTED",
+    payload: id
+  }
+}

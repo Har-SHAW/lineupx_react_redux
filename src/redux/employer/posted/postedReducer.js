@@ -1,5 +1,4 @@
 const initState = {
-  post: {
     loading: false,
     posts: [
       {
@@ -20,7 +19,7 @@ const initState = {
         postedBy: "some",
       },
     ],
-  },
+  
   error: "",
 };
 
@@ -29,12 +28,12 @@ const postedReducer = (state = initState, action) => {
     case "SET_POST":
       return {
         ...state,
-        post: { posts: action.payload },
+        posts: action.payload,
       };
     case "ADD_POST":
       return {
         loading: false,
-        post: { posts: [...state.post.posts, action.payload] },
+        posts: [...state.posts, action.payload],
         error: ""
       };
       case 'FETCH_EMPLOYER_POSTS_REQUEST':
@@ -45,7 +44,7 @@ const postedReducer = (state = initState, action) => {
     case 'FETCH_EMPLOYER_POSTS_FAILURE':
       return {
         loading: false,
-        user: {},
+        posts: [],
         error: action.payload,
       };
     default:

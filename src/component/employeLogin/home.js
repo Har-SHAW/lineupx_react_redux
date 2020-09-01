@@ -158,8 +158,8 @@ class Home extends React.Component {
 const mapStateToProps = (state) => {
   return {
     userData: state.userEmployer.user,
-    posts: state.postedEmployer.post.posts,
-    postLoading: state.postedEmployer.post.loading,
+    posts: state.postedEmployer.posts,
+    postLoading: state.postedEmployer.loading,
     loading: state.userEmployer.loading,
   };
 };

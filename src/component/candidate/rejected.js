@@ -81,8 +81,8 @@ class Rejected extends React.Component{
 const mapStateToProps = (state) => {
     return {
       userData: state.userCandidate.user,
-      posts: state.postsCandidate.post.posts,
-      postLoading: state.postsCandidate.post.loading,
+      posts: state.postsCandidate.posts,
+      postLoading: state.postsCandidate.loading,
       loading: state.userCandidate.loading,
     };
   };

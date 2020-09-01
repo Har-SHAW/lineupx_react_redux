@@ -1,10 +1,12 @@
 import React from "react";
 import { connect } from "react-redux";
 import { fetchCandidateUsers } from "../../redux";
+import { useHistory } from "react-router-dom";
 
 function Login(props) {
-    var username = "";
-    var password = "";
+  var username = "";
+  var password = "";
+  const history = useHistory();
   return (
     <div style={{ width: "100%", display: "flex", justifyContent: "center" }}>
       <div style={{ display: "flex", flexDirection: "column", width: "100%" }}>
@@ -25,15 +27,13 @@ function Login(props) {
         />
         <input
           onClick={(e) => {
-            e.preventDefault();
             props.login(username, password);
+            history.push("/candidate/home");
           }}
           style={{ marginTop: "20px" }}
           type="submit"
           value="Login"
         />
-        <label>{props.loading}</label>
-        <label>{props.userData.firstname}</label>
       </div>
     </div>
   );

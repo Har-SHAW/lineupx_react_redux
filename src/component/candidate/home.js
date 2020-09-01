@@ -1,5 +1,5 @@
 import React from "react";
-import { addPost } from "../../redux";
+import { addPost, setAccepted } from "../../redux";
 import { connect } from "react-redux";
 import Accepted from "./accepted";
 import Rejected from "./rejected";
@@ -134,6 +134,7 @@ class Home extends React.Component {
                             `descriptionsingle${i}`
                           ).className = "employerDescription";
                         }
+                        this.props.setAccepted(post.id);
                       }}
                       style={{
                         display: "flex",
@@ -183,8 +184,8 @@ class Home extends React.Component {
 const mapStateToProps = (state) => {
   return {
     userData: state.userCandidate.user,
-    posts: state.postsCandidate.post.posts,
-    postLoading: state.postsCandidate.post.loading,
+    posts: state.postsCandidate.posts,
+    postLoading: state.postsCandidate.loading,
     loading: state.userCandidate.loading,
   };
 };
@@ -192,6 +193,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     addPost: (post) => dispatch(addPost(post)),
+    setAccepted: (id) => dispatch(setAccepted(id))
   };
 };
 

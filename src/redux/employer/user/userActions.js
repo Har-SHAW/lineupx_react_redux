@@ -9,7 +9,7 @@ export const fetchEmployerUsers = (e_username, e_password) => {
   const data = {
     username: e_username,
     password: e_password,
-  };
+  }; 
   return (dispatch) => {
     dispatch(fetchEmployerUsersRequest());
     axios
